@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "d59162a0-0068-43cc-84fd-ef62ea50cd9a",
+		"name": "Teste QA Ewally",
+		"description": "Teste Prático QA\n\nUrl onde fica o repositorio: https://bitbucket.org/ewally/teste-qa/src/master/\n\n\nTeste QA Ewally\nAplicação para validação de linha digitável de boleto de títulos bancários e pagamentos de concessionárias\n\nInstalação e execução da aplicação\nClonar o projeto\nNa pasta do projeto, executar o comando \"npm install\", para instalar as dependências do projeto\nExecutar o comando \"npm start\" para iniciar o servidor nodejs\nEnviar POST do tipo JSON para o endpoint \"http://localhost:3333/boleto\" conforme exemplo no arquivo \"postExample.json\"",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "títulosBancários",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Critérios de Aceite caminho feliz \", function () {\r",
+							"\r",
+							"    pm.test(\"Campo com o código de barras deve ser sempre exibido no retorno da consulta.\", function () {\r",
+							"        pm.response.to.have.jsonBody(\"codigoBarras\", \"82650000000500101102018011111712140665196058\");\r",
+							"    });\r",
+							"\r",
+							"    pm.test(\"Caso o boleto possua data de vencimento este campo deve ser exibido no retornoda consulta\", function () {\r",
+							"        pm.response.to.have.jsonBody(\"dataVencimento\", \"11/01/2018\");\r",
+							"    });\r",
+							"\r",
+							"    pm.test(\"Caso o boleto possua valor este campo deve ser exibido no retorno da consulta\", function () {\r",
+							"        pm.response.to.have.jsonBody(\"valor\", \"50.01\");\r",
+							"    })\r",
+							"\r",
+							"    pm.test(\"Status code esperado 200\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"line\": \"826500000003500101102019801111171212406651960584\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/boleto",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"boleto"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "linhaVálida",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"line\": \"826500000003500101102019801111171212406651960584\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/boleto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boleto"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"dataVencimento\": \"07/10/1997\",\n    \"valor\": \"0.00\",\n    \"codigoBarras\": \"34197000000000000001750001155672040014827000\",\n    \"linhaValida\": true\n}"
+				},
+				{
+					"name": "linhaInválida",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"line\": \"**\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/boleto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boleto"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"error\": \"Caracteres inválidos\"\n}"
+				}
+			]
+		},
+		{
+			"name": "pagamentoConcessionária",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code esperado 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"line\":\"826500000003500101102019801111171212406651960584\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/boleto",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"boleto"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "linhaVálida",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"line\":\"826500000003500101102019801111171212406651960584\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/boleto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boleto"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"codigoBarras\": \"82650000000500101102018011111712140665196058\",\r\n    \"valor\": \"50.01\",\r\n    \"dataVencimento\": \"11/01/2018\",\r\n    \"linhaValida\": true\r\n}"
+				},
+				{
+					"name": "linhaDigitadaInválida",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"line\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/boleto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boleto"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"error\": \"Tamanho da linha é inválida\"\r\n}"
+				},
+				{
+					"name": "tamanhoDaLinhaInválida",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"line\":\"826500000003500101102019801111171212406651960584\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/boleto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boleto"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"error\": \"Tamanho da linha é inválida\"\r\n}"
+				},
+				{
+					"name": "caracteresInválido",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"line\":\"%%!@#$\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/boleto",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"boleto"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"error\": \"Caracteres inválidos\"\r\n}"
+				}
+			]
+		}
+	]
+}
